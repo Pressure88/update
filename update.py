@@ -16,7 +16,7 @@ SCRIPT_FILE    = "update.py"          # имя этого файла в репо
 CHECK_INTERVAL = 60                   # как часто проверять обновления (секунды)
 # ══════════════════════════════════════════════
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 RAW_URL   = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{SCRIPT_FILE}"
 API_URL   = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/commits?sha={GITHUB_BRANCH}&per_page=1&path={SCRIPT_FILE}"
