@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Скрипт с автообновлением через GitHub.
-Настрой переменные ниже под свой репозиторий.
-"""
-
 import sys
 import os
 import json
@@ -11,16 +5,14 @@ import subprocess
 import urllib.request
 import urllib.error
 
-# ══════════════════════════════════════════════
-#  НАСТРОЙКИ — измени под себя
-# ══════════════════════════════════════════════
-GITHUB_USER   = "pressure88"       # твой GitHub логин
-GITHUB_REPO   = "update"           # название репозитория
-GITHUB_BRANCH = "main"             # ветка (main или master)
-SCRIPT_FILE   = "update.pyw"           # имя этого файла в репозитории
-# ══════════════════════════════════════════════
 
-VERSION = "1.0.0"   # ← меняй при каждом коммите, чтобы триггерить обновление
+GITHUB_USER   = "pressure88" 
+GITHUB_REPO   = "update" 
+GITHUB_BRANCH = "main"
+SCRIPT_FILE   = "update.pyw" 
+
+
+VERSION = "1.0.1"
 
 RAW_URL     = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{SCRIPT_FILE}"
 API_URL     = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/commits?sha={GITHUB_BRANCH}&per_page=1&path={SCRIPT_FILE}"
@@ -67,7 +59,6 @@ def _download_and_restart(sha: str) -> None:
         print(f"[updater] Ошибка скачивания: {e}. Продолжаю с текущей версией.")
         return
 
-    # Бэкап + замена файла
     try:
         if os.path.exists(backup_path):
             os.remove(backup_path)
@@ -83,7 +74,7 @@ def _download_and_restart(sha: str) -> None:
             os.rename(backup_path, script_path)
         return
 
-    # Перезапуск того же процесса с теми же аргументами
+
     os.execv(sys.executable, [sys.executable] + sys.argv)
 
 
@@ -92,7 +83,7 @@ def check_for_updates() -> None:
     print(f"[updater] Версия {VERSION}. Проверяю обновления на GitHub...")
     remote_sha = _get_remote_sha()
     if remote_sha is None:
-        return  # нет сети — работаем как есть
+        return
 
     local_sha = _get_local_sha()
     if remote_sha == local_sha:
@@ -103,9 +94,7 @@ def check_for_updates() -> None:
     _download_and_restart(remote_sha)
 
 
-# ══════════════════════════════════════════════
-#  ТВОЯ ЛОГИКА — пиши здесь всё что нужно
-# ══════════════════════════════════════════════
+
 def main():
     check_for_updates()   # ← всегда первой строкой
 
